@@ -1,6 +1,4 @@
 # Makefile
-gendiff:
-	poetry run gendiff
 install: 
 	poetry install
 build: 
@@ -11,5 +9,5 @@ package-install:
 	python3 -m pip install --user dist/*.whl
 package-install-force: 
 	python3 -m pip install --force-reinstall --user dist/*.whl
-linter:
+lint:
 	poetry run flake8
