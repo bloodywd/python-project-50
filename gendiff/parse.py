@@ -14,7 +14,7 @@ def file_to_string(file_path1, file_path2):
 
 def create_difference():
     return {
-        'simular': [],
+        'similar': [],
         'different_values': [],
         'first_only_keys': [],
         'second_only_keys': [],
@@ -22,8 +22,8 @@ def create_difference():
     }
 
 
-def add_simular(difference, key, value):
-    difference['simular'].append(key)
+def add_one_value(difference, key, value, index):
+    difference[index].append(key)
     difference[key] = value
 
 
@@ -36,19 +36,9 @@ def add_different_values(difference, key, value1, value2):
     difference[key] = value1, value2
 
 
-def add_first_only(difference, key, value):
-    difference['first_only_keys'].append(key)
-    difference[key] = value
-
-
-def add_second_only(difference, key, value):
-    difference['second_only_keys'].append(key)
-    difference[key] = value
-
-
 def operate_same_key(diff, key, value1, value2):
     if value1 == value2:
-        add_simular(diff, key, value1)
+        add_one_value(diff, key, value1, 'similar')
     elif isinstance(value1, dict) and isinstance(value2, dict):
         add_children(diff, key)
         diff[key] = parse(value1, value2)
@@ -62,8 +52,8 @@ def parse(file1, file2):
         if key in file2:
             operate_same_key(difference, key, value, file2[key])
         else:
-            add_first_only(difference, key, value)
+            add_one_value(difference, key, value, 'first_only_keys')
     for key, value in file2.items():
         if key not in file1:
-            add_second_only(difference, key, value)
+            add_one_value(difference, key, value, 'second_only_keys')
     return difference

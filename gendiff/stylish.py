@@ -10,7 +10,7 @@ def check_nested(key, value, depth):
         return f'{key}: {value}\n'
 
 
-def add_simular(key, level, depth):
+def add_similar(key, level, depth):
     answer = ''
     key_to_string = check_nested(key, level[key], depth)
     answer += f'{" " * depth}{key_to_string}'
@@ -54,7 +54,7 @@ FUNCS = {
     'different_values': add_diff_values,
     'second_only_keys': add_second_only,
     'first_only_keys': add_first_only,
-    'simular': add_simular,
+    'similar': add_similar,
 }
 
 
