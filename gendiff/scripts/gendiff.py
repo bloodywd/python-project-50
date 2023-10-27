@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 import argparse
-from gendiff.parse import parse
+from gendiff.parse import parse, file_to_string
+from gendiff.stylish import stylish
 
 
 def generate_diff(file_path1, file_path2):
-    return parse(file_path1, file_path2)
+    file1, file2 = file_to_string(file_path1, file_path2)
+    return parse(file1, file2)
 
 
 def parse_arguments():
@@ -27,7 +29,7 @@ __all__ = (
 def main():
     args = parse_arguments()
     diff = generate_diff(args.first_file, args.second_file)
-    print(diff)
+    stylish(diff)
 
 
 if __name__ == '__main__':
