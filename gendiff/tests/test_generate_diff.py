@@ -1,7 +1,7 @@
 from gendiff.scripts.gendiff import generate_diff
 
 
-def test_generate_diff():
+def test_generate_diff_json():
     file1 = 'gendiff/tests/fixtures/file1.json'
     file2 = 'gendiff/tests/fixtures/file2.json'
     result = generate_diff(file1, file2)
@@ -13,3 +13,10 @@ def test_generate_diff_yaml():
     file2 = 'gendiff/tests/fixtures/file2.yml'
     result = generate_diff(file1, file2)
     assert result == open('gendiff/tests/fixtures/expected.txt').read()
+
+
+def test_generate_diff_complex():
+    file1 = 'gendiff/tests/fixtures/file3.json'
+    file2 = 'gendiff/tests/fixtures/file4.json'
+    result = generate_diff(file1, file2)
+    assert result == open('gendiff/tests/fixtures/expected2.txt').read()
