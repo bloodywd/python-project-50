@@ -6,7 +6,8 @@ from gendiff.stylish import stylish
 
 def generate_diff(file_path1, file_path2):
     file1, file2 = file_to_string(file_path1, file_path2)
-    return parse(file1, file2)
+    diff = parse(file1, file2)
+    return stylish(diff)
 
 
 def parse_arguments():
@@ -28,8 +29,7 @@ __all__ = (
 
 def main():
     args = parse_arguments()
-    diff = generate_diff(args.first_file, args.second_file)
-    stylish(diff)
+    print(generate_diff(args.first_file, args.second_file))
 
 
 if __name__ == '__main__':
