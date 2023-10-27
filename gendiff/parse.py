@@ -2,14 +2,12 @@ import json
 import yaml
 
 
-def file_to_string(file_path1, file_path2):
-    if ('.yml' in file_path1) or ('.yaml' in file_path1):
-        file1 = yaml.safe_load(open(file_path1))
-        file2 = yaml.safe_load(open(file_path2))
-    elif ('.json' in file_path1):
-        file1 = json.load(open(file_path1))
-        file2 = json.load(open(file_path2))
-    return (file1, file2)
+def file_to_string(file_path):
+    if ('.yml' in file_path) or ('.yaml' in file_path):
+        file = yaml.safe_load(open(file_path))
+    elif ('.json' in file_path):
+        file = json.load(open(file_path))
+    return file
 
 
 def create_difference():

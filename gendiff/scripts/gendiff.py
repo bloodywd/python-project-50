@@ -4,10 +4,11 @@ from gendiff.parse import parse, file_to_string
 from gendiff.stylish import stylish
 
 
-def generate_diff(file_path1, file_path2):
-    file1, file2 = file_to_string(file_path1, file_path2)
+def generate_diff(file_path1, file_path2, formatter=stylish):
+    file1 = file_to_string(file_path1)
+    file2 = file_to_string(file_path2)
     diff = parse(file1, file2)
-    return stylish(diff)
+    return formatter(diff)
 
 
 def parse_arguments():
@@ -17,7 +18,7 @@ def parse_arguments():
     parser.add_argument("first_file", type=str)
     parser.add_argument("second_file", type=str)
     parser.add_argument(
-        '-f', '--format', help='set format of output'
+        '-f', '--format', help='output format (default: "stylish") '
     )
     return parser.parse_args()
 
@@ -29,7 +30,10 @@ __all__ = (
 
 def main():
     args = parse_arguments()
-    print(generate_diff(args.first_file, args.second_file))
+    first_file = args.first_file
+    second_file = args.second_file
+    format = stylish if not args.format else args.format
+    print(generate_diff(first_file, second_file, format))
 
 
 if __name__ == '__main__':
