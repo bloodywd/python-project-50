@@ -10,41 +10,37 @@ def check_nested(key, value, depth):
         return f'{key}: {value}\n'
 
 
-def add_simular(level, depth):
+def add_simular(key, level, depth):
     answer = ''
-    for key in level['simular']:
-        key_to_string = check_nested(key, level[key], depth)
-        answer += f'{" " * depth}{key_to_string}'
+    key_to_string = check_nested(key, level[key], depth)
+    answer += f'{" " * depth}{key_to_string}'
     return answer
 
 
-def add_first_only(level, depth):
+def add_first_only(key, level, depth):
     answer = ''
-    for key in level['first_only_keys']:
-        key_to_string = check_nested(key, level[key], depth)
-        answer += f'{" " * (depth - 2)}- {key_to_string}'
+    key_to_string = check_nested(key, level[key], depth)
+    answer += f'{" " * (depth - 2)}- {key_to_string}'
     return answer
 
 
-def add_second_only(level, depth):
+def add_second_only(key, level, depth):
     answer = ''
-    for key in level['second_only_keys']:
-        key_to_string = check_nested(key, level[key], depth)
-        answer += f'{" " * (depth - 2)}+ {key_to_string}'
+    key_to_string = check_nested(key, level[key], depth)
+    answer += f'{" " * (depth - 2)}+ {key_to_string}'
     return answer
 
 
-def add_diff_values(level, depth):
+def add_diff_values(key, level, depth):
     answer = ''
-    for key in level['different_values']:
-        key_to_string1 = check_nested(key, level[key][0], depth)
-        key_to_string2 = check_nested(key, level[key][1], depth)
-        answer += f'{" " * (depth - 2)}- {key_to_string1}'
-        answer += f'{" " * (depth - 2)}+ {key_to_string2}'
+    key_to_string1 = check_nested(key, level[key][0], depth)
+    key_to_string2 = check_nested(key, level[key][1], depth)
+    answer += f'{" " * (depth - 2)}- {key_to_string1}'
+    answer += f'{" " * (depth - 2)}+ {key_to_string2}'
     return answer
 
 
-def add_children(level, depth):
+def add_children(key, level, depth):
     answer = ''
     for key in level['children']:
         answer += f'{" " * (depth)}{key}: {{ \n'
@@ -53,13 +49,21 @@ def add_children(level, depth):
     return answer
 
 
+FUNCS = {
+    'children': add_children,
+    'different_values': add_diff_values,
+    'second_only_keys': add_second_only,
+    'first_only_keys': add_first_only,
+    'simular': add_simular,
+}
+
+
 def lower_level(level, depth):
     level_answer = ''
-    level_answer += add_simular(level, depth)
-    level_answer += add_first_only(level, depth)
-    level_answer += add_second_only(level, depth)
-    level_answer += add_diff_values(level, depth)
-    level_answer += add_children(level, depth)
+    for key in level:
+        for names in FUNCS:
+            if key in level[names]:
+                level_answer += FUNCS[names](key, level, depth)
     return level_answer
 
 
@@ -68,5 +72,4 @@ def stylish(difference):
     depth = 0
     answer += lower_level(difference, depth + 4)
     answer += '}'
-    print(answer)
     return answer
