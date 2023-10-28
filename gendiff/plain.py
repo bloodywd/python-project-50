@@ -12,26 +12,26 @@ def complex_or_not(value):
         return f"{value}"
 
 
-def add_first_only(key, level, path):
-    return f'Property \'{path}{key}\' was removed\n'
+def add_first_only(key, level, path, answer):
+    answer.append(f'Property \'{path}{key}\' was removed')
 
 
-def add_second_only(key, level, path):
+def add_second_only(key, level, path, answer):
     value = complex_or_not(level[key])
-    return f'Property \'{path}{key}\' was added with value: {value}\n'
+    answer.append(f'Property \'{path}{key}\' was added with value: {value}')
 
 
-def add_diff_values(key, level, path):
+def add_diff_values(key, level, path, answer):
     value1 = complex_or_not(level[key][0])
     value2 = complex_or_not(level[key][1])
-    return f'Property \'{path}{key}\' was updated. From {value1} to {value2}\n'
+    answer.append(
+        f'Property \'{path}{key}\' was updated. From {value1} to {value2}'
+    )
 
 
-def add_children(key, level, path):
-    answer = ''
+def add_children(key, level, path, answer):
     new_path = f'{path}{key}.'
-    answer += lower_level(level[key], new_path)
-    return answer
+    lower_level(level[key], new_path, answer)
 
 
 FUNCS = {
@@ -42,17 +42,15 @@ FUNCS = {
 }
 
 
-def lower_level(level, path):
-    level_answer = ''
+def lower_level(level, path, answer):
     for key in sorted(level.keys()):
         for names in FUNCS:
             if key in level[names]:
-                level_answer += FUNCS[names](key, level, path)
-    return level_answer
+                FUNCS[names](key, level, path, answer)
 
 
 def plain(difference):
-    answer = ''
+    answer = []
     path = ''
-    answer += lower_level(difference, path)
-    return answer[:-1]
+    lower_level(difference, path, answer)
+    return '\n'.join(answer)
