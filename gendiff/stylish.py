@@ -68,7 +68,7 @@ FUNCS = {
 
 def lower_level(level, depth):
     level_answer = ''
-    for key in sorted(level.keys()):
+    for key in sorted(level):
         for names in FUNCS:
             if key in level[names]:
                 level_answer += FUNCS[names](key, level, depth)
