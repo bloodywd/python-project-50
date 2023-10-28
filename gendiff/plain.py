@@ -6,8 +6,10 @@ def complex_or_not(value):
         return str(value).lower()
     elif value is None:
         return 'null'
-    else:
+    elif value_type is str:
         return f"'{value}'"
+    else:
+        return f"{value}"
 
 
 def add_first_only(key, level, path):
