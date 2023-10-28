@@ -57,10 +57,12 @@ FUNCS = {
 
 
 def lower_level(level, depth, answer):
-    for key in sorted(level.keys()):
-        for names in FUNCS:
-            if key in level[names]:
-                FUNCS[names](key, level, depth, answer)
+    [
+        FUNCS[names](key, level, depth, answer)
+        for key in sorted(level.keys())
+        for names in FUNCS
+        if key in level[names]
+    ]
 
 
 def stylish(difference):

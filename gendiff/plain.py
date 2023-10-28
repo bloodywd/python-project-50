@@ -43,10 +43,12 @@ FUNCS = {
 
 
 def lower_level(level, path, answer):
-    for key in sorted(level.keys()):
-        for names in FUNCS:
-            if key in level[names]:
-                FUNCS[names](key, level, path, answer)
+    [
+        FUNCS[names](key, level, path, answer)
+        for key in sorted(level.keys())
+        for names in FUNCS
+        if key in level[names]
+    ]
 
 
 def plain(difference):
