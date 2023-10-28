@@ -46,16 +46,12 @@ def operate_same_key(diff, key, value1, value2):
 
 def parse(file1, file2):
     difference = create_difference()
-    [
-        operate_same_key(difference, key, value, file2[key])
-        if key in file2
-        else add_one_value(difference, key, value, 'first_only_keys')
-        for key, value in file1.items()
-    ]
-
-    [
-        add_one_value(difference, key, value, 'second_only_keys')
-        for key, value in file2.items()
-        if key not in file1
-    ]
+    for key, value in file1.items():
+        if key in file2:
+            operate_same_key(difference, key, value, file2[key])
+        else:
+            add_one_value(difference, key, value, 'first_only_keys')
+    for key, value in file2.items():
+        if key not in file1:
+            add_one_value(difference, key, value, 'second_only_keys')
     return difference
