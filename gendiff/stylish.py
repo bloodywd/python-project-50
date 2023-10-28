@@ -1,7 +1,7 @@
 def check_nested(key, value, depth):
     answer = ''
     if isinstance(value, dict):
-        answer += f'{key}: {{ \n'
+        answer += f'{key}: {{\n'
         for k, val in value.items():
             answer += f'{" " * (depth + 4)}{check_nested(k, val, depth + 4)}'
         answer += f'{" " * (depth)}}}\n'
@@ -43,9 +43,9 @@ def add_diff_values(key, level, depth):
 def add_children(key, level, depth):
     answer = ''
     for key in level['children']:
-        answer += f'{" " * (depth)}{key}: {{ \n'
+        answer += f'{" " * (depth)}{key}: {{\n'
         answer += lower_level(level[key], depth + 4)
-        answer += f'{" " * (depth)}}} \n'
+        answer += f'{" " * (depth)}}}\n'
     return answer
 
 
