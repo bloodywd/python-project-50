@@ -32,11 +32,6 @@ def parse_arguments():
     return parser.parse_args()
 
 
-__all__ = (
-    'generate_diff',
-)
-
-
 def main():
     args = parse_arguments()
     first_file = args.first_file

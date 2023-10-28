@@ -2,6 +2,10 @@ def complex_or_not(value):
     value_type = type(value)
     if value_type in (list, tuple, range, dict, set, frozenset):
         return '[complex value]'
+    elif value_type is bool:
+        return str(value).lower()
+    elif value is None:
+        return 'null'
     else:
         return f"'{value}'"
 
@@ -24,8 +28,7 @@ def add_diff_values(key, level, path):
 def add_children(key, level, path):
     answer = ''
     new_path = f'{path}{key}.'
-    for new_level in level['children']:
-        answer += lower_level(level[new_level], new_path)
+    answer += lower_level(level[key], new_path)
     return answer
 
 
@@ -39,7 +42,7 @@ FUNCS = {
 
 def lower_level(level, path):
     level_answer = ''
-    for key in level:
+    for key in sorted(level.keys()):
         for names in FUNCS:
             if key in level[names]:
                 level_answer += FUNCS[names](key, level, path)

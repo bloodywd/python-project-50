@@ -1,3 +1,12 @@
+def check_type(value):
+    if type(value) is bool:
+        return str(value).lower()
+    elif value is None:
+        return 'null'
+    else:
+        return value
+
+
 def check_nested(key, value, depth):
     answer = ''
     if isinstance(value, dict):
@@ -7,7 +16,7 @@ def check_nested(key, value, depth):
         answer += f'{" " * (depth)}}}\n'
         return answer
     else:
-        return f'{key}: {value}\n'
+        return f'{key}: {check_type(value)}\n'
 
 
 def add_similar(key, level, depth):
@@ -42,10 +51,9 @@ def add_diff_values(key, level, depth):
 
 def add_children(key, level, depth):
     answer = ''
-    for key in level['children']:
-        answer += f'{" " * (depth)}{key}: {{\n'
-        answer += lower_level(level[key], depth + 4)
-        answer += f'{" " * (depth)}}}\n'
+    answer += f'{" " * (depth)}{key}: {{\n'
+    answer += lower_level(level[key], depth + 4)
+    answer += f'{" " * (depth)}}}\n'
     return answer
 
 
@@ -60,7 +68,7 @@ FUNCS = {
 
 def lower_level(level, depth):
     level_answer = ''
-    for key in level:
+    for key in sorted(level.keys()):
         for names in FUNCS:
             if key in level[names]:
                 level_answer += FUNCS[names](key, level, depth)
