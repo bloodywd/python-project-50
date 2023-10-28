@@ -25,5 +25,5 @@ def test_generate_diff_stylish():
 def test_generate_diff_plane():
     file1 = 'gendiff/tests/fixtures/file3.json'
     file2 = 'gendiff/tests/fixtures/file4.json'
-    result = generate_diff(file1, file2, 'plane')
+    result = generate_diff(file1, file2, 'plain')
     assert result == open('gendiff/tests/fixtures/expected3.txt').read()

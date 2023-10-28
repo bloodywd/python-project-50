@@ -49,7 +49,7 @@ def lower_level(level, path):
     return level_answer
 
 
-def plane(difference):
+def plain(difference):
     answer = ''
     path = ''
     answer += lower_level(difference, path)
