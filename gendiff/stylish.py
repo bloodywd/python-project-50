@@ -1,10 +1,10 @@
 def check_nested(key, value, depth):
     answer = ''
     if isinstance(value, dict):
-        answer += f'{key}: {{\n'
+        answer += f'{key}: {{ \n'
         for k, val in value.items():
             answer += f'{" " * (depth + 4)}{check_nested(k, val, depth + 4)}'
-        answer += f'{" " * (depth)}}} \n'
+        answer += f'{" " * (depth)}}}\n'
         return answer
     else:
         return f'{key}: {value}\n'
