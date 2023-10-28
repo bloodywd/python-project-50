@@ -3,11 +3,13 @@ import argparse
 from gendiff.parse import parse, file_to_string
 from gendiff.stylish import stylish
 from gendiff.plane import plane
+from gendiff.format_to_json import format_to_json
 
 
 FUNCS = {
     'stylish': stylish,
-    'plane': plane
+    'plane': plane,
+    'json': format_to_json,
 }
 
 
