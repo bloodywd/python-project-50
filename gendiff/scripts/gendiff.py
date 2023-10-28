@@ -2,13 +2,20 @@
 import argparse
 from gendiff.parse import parse, file_to_string
 from gendiff.stylish import stylish
+from gendiff.plane import plane
 
 
-def generate_diff(file_path1, file_path2, formatter=stylish):
+FUNCS = {
+    'stylish': stylish,
+    'plane': plane
+}
+
+
+def generate_diff(file_path1, file_path2, format='stylish'):
     file1 = file_to_string(file_path1)
     file2 = file_to_string(file_path2)
     diff = parse(file1, file2)
-    return formatter(diff)
+    return FUNCS[format](diff)
 
 
 def parse_arguments():
@@ -32,7 +39,7 @@ def main():
     args = parse_arguments()
     first_file = args.first_file
     second_file = args.second_file
-    format = stylish if not args.format else args.format
+    format = 'stylish' if not args.format else args.format
     print(generate_diff(first_file, second_file, format))
 
 

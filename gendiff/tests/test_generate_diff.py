@@ -15,8 +15,15 @@ def test_generate_diff_yaml():
     assert result == open('gendiff/tests/fixtures/expected.txt').read()
 
 
-def test_generate_diff_complex():
+def test_generate_diff_stylish():
     file1 = 'gendiff/tests/fixtures/file3.json'
     file2 = 'gendiff/tests/fixtures/file4.json'
     result = generate_diff(file1, file2)
     assert result == open('gendiff/tests/fixtures/expected2.txt').read()
+
+
+def test_generate_diff_plane():
+    file1 = 'gendiff/tests/fixtures/file3.json'
+    file2 = 'gendiff/tests/fixtures/file4.json'
+    result = generate_diff(file1, file2, 'plane')
+    assert result == open('gendiff/tests/fixtures/expected3.txt').read()
