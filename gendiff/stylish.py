@@ -82,5 +82,4 @@ def stylish(difference):
     depth = 0
     answer += stylish_level(difference, depth + 4)
     answer += '}'
-    print(answer)
     return answer

@@ -34,5 +34,4 @@ def parse(file1, file2):
         value, props = check_values(file1, file2, key)
         difference[key] = value
         difference['props'][key] = props
-    print(difference['props'])
     return difference
