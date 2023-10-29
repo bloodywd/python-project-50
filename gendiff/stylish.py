@@ -52,34 +52,35 @@ def add_diff_values(key, level, depth):
 def add_children(key, level, depth):
     answer = ''
     answer += f'{" " * (depth)}{key}: {{\n'
-    answer += lower_level(level[key], depth + 4)
+    answer += stylish_level(level[key], depth + 4)
     answer += f'{" " * (depth)}}}\n'
     return answer
 
 
 FUNCS = {
     'children': add_children,
-    'different_values': add_diff_values,
-    'second_only_keys': add_second_only,
-    'first_only_keys': add_first_only,
+    'two_values': add_diff_values,
+    'second_only': add_second_only,
+    'first_only': add_first_only,
     'similar': add_similar,
 }
 
 
-def lower_level(level, depth):
+def stylish_level(level, depth):
     level_answer = ''
-    level_answer += ''.join([
-        FUNCS[names](key, level, depth)
-        for key in sorted(level.keys())
-        for names in FUNCS
-        if key in level[names]
-    ])
+    for key in sorted(level.keys()):
+        if key == 'props':
+            continue
+        props = level['props']
+        key_func_name = props[key]
+        level_answer += FUNCS[key_func_name](key, level, depth)
     return level_answer
 
 
 def stylish(difference):
     answer = '{\n'
     depth = 0
-    answer += lower_level(difference, depth + 4)
+    answer += stylish_level(difference, depth + 4)
     answer += '}'
+    print(answer)
     return answer

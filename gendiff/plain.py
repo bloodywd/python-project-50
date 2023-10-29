@@ -36,20 +36,22 @@ def add_children(key, level, path):
 
 FUNCS = {
     'children': add_children,
-    'different_values': add_diff_values,
-    'second_only_keys': add_second_only,
-    'first_only_keys': add_first_only,
+    'two_values': add_diff_values,
+    'second_only': add_second_only,
+    'first_only': add_first_only,
 }
 
 
 def lower_level(level, path):
     level_answer = ''
-    level_answer += ''.join([
-        FUNCS[names](key, level, path)
-        for key in sorted(level.keys())
-        for names in FUNCS
-        if key in level[names]
-    ])
+    for key in sorted(level.keys()):
+        if key == 'props':
+            continue
+        props = level['props']
+        if props[key] == 'similar':
+            continue
+        key_func_name = props[key]
+        level_answer += FUNCS[key_func_name](key, level, path)
     return level_answer
 
 

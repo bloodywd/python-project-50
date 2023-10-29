@@ -10,52 +10,29 @@ def file_to_string(file_path):
     return file
 
 
-def create_difference():
-    return {
-        'similar': [],
-        'different_values': [],
-        'first_only_keys': [],
-        'second_only_keys': [],
-        'children': []
-    }
-
-
-def add_one_value(difference, key, value, index):
-    difference[index].append(key)
-    difference[key] = value
-
-
-def add_children(difference, key):
-    difference['children'].append(key)
-
-
-def add_different_values(difference, key, value1, value2):
-    difference['different_values'].append(key)
-    difference[key] = value1, value2
-
-
-def operate_same_key(diff, key, value1, value2):
-    if value1 == value2:
-        add_one_value(diff, key, value1, 'similar')
-    elif isinstance(value1, dict) and isinstance(value2, dict):
-        add_children(diff, key)
-        diff[key] = parse(value1, value2)
-    else:
-        add_different_values(diff, key, value1, value2)
+def check_values(file1, file2, key):
+    if key not in file1:
+        return file2[key], 'second_only'
+    if key not in file2:
+        return file1[key], 'first_only'
+    if file1[key] == file2[key]:
+        return file1[key], 'similar'
+    if isinstance(file1[key], dict) and isinstance(file2[key], dict):
+        return parse(file1[key], file2[key]), 'children'
+    if file1[key] != file2[key]:
+        return (file1[key], file2[key]), 'two_values'
 
 
 def parse(file1, file2):
-    difference = create_difference()
-    [
-        operate_same_key(difference, key, value, file2[key])
-        if key in file2
-        else add_one_value(difference, key, value, 'first_only_keys')
-        for key, value in file1.items()
-    ]
-
-    [
-        add_one_value(difference, key, value, 'second_only_keys')
-        for key, value in file2.items()
-        if key not in file1
-    ]
+    difference = {
+        'props': {}
+    }
+    keys1 = list(file1.keys())
+    keys2 = list(file2.keys())
+    difference_keys = list(set(keys1 + keys2))
+    for key in difference_keys:
+        value, props = check_values(file1, file2, key)
+        difference[key] = value
+        difference['props'][key] = props
+    print(difference['props'])
     return difference
