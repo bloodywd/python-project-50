@@ -4,6 +4,8 @@ import os
 
 
 PATH = os.path.dirname(__file__) + '/fixtures'
+# os.path.join не работает, так как file_to_string в модуле parse
+# недополучает папку tests
 
 
 def test_generate_diff_stylish_json():
