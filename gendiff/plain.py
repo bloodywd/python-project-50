@@ -12,7 +12,7 @@ def complex_or_not(value):
         return f"{value}"
 
 
-def add_first_only(key, level, path):
+def add_first_only(key, _, path):
     return f'Property \'{path}{key}\' was removed\n'
 
 

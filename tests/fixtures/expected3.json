@@ -1,7 +1,7 @@
 {
     "props": {
         "abc": "first_only",
-        "bbc": "second_only",
+        "bbc": "similar",
         "group1": "children"
     },
     "abc": true,

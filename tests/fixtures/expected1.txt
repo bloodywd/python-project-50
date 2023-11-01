@@ -1,6 +1,6 @@
 {
   - abc: true
-  + bbc: 123
+    bbc: 123
     group1: {
       + baz: bazz
       - subgropu1: bas
