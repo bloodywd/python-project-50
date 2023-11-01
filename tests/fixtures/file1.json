@@ -1,6 +1,9 @@
 {
   "group1": {
-    "subgropu1": "bas"
+    "subgropu1": "bas",
+    "zip": {
+      "sup": "puss"
+    }
   },
   "abc": true,
   "bbc": 123

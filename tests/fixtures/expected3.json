@@ -1,21 +1,27 @@
 {
     "props": {
-        "abc": "first_only",
+        "group1": "children",
         "bbc": "similar",
-        "group1": "children"
+        "abc": "first_only"
     },
-    "abc": true,
-    "bbc": 123,
     "group1": {
         "props": {
             "subgropu1": "first_only",
-            "baz": "second_only",
-            "zip": "second_only"
+            "zip": "children",
+            "baz": "second_only"
         },
         "subgropu1": "bas",
-        "baz": "bazz",
         "zip": {
-            "sup": "pus"
-        }
-    }
+            "props": {
+                "sup": "two_values"
+            },
+            "sup": [
+                "puss",
+                "pus"
+            ]
+        },
+        "baz": "bazz"
+    },
+    "bbc": 123,
+    "abc": true
 }

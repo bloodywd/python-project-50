@@ -4,8 +4,9 @@
     group1: {
       + baz: bazz
       - subgropu1: bas
-      + zip: {
-            sup: pus
+        zip: {
+          - sup: puss
+          + sup: pus
         }
     }
 }

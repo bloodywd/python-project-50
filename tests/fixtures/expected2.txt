@@ -1,4 +1,4 @@
 Property 'abc' was removed
 Property 'group1.baz' was added with value: 'bazz'
 Property 'group1.subgropu1' was removed
-Property 'group1.zip' was added with value: [complex value]
+Property 'group1.zip.sup' was updated. From 'puss' to 'pus'
