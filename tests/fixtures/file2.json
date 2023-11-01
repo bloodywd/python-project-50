@@ -1,0 +1,9 @@
+{
+  "group1": {
+    "baz": "bazz",
+    "zip": {
+      "sup": "pus"
+    }
+  },
+  "bbc": 123
+}

@@ -1,0 +1,11 @@
+{
+  - abc: true
+  + bbc: 123
+    group1: {
+      + baz: bazz
+      - subgropu1: bas
+      + zip: {
+            sup: pus
+        }
+    }
+}

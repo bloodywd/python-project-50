@@ -1,0 +1,21 @@
+{
+    "props": {
+        "abc": "first_only",
+        "bbc": "second_only",
+        "group1": "children"
+    },
+    "abc": true,
+    "bbc": 123,
+    "group1": {
+        "props": {
+            "subgropu1": "first_only",
+            "baz": "second_only",
+            "zip": "second_only"
+        },
+        "subgropu1": "bas",
+        "baz": "bazz",
+        "zip": {
+            "sup": "pus"
+        }
+    }
+}
