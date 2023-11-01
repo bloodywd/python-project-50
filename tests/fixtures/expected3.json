@@ -17,7 +17,7 @@
             },
             "sup": [
                 "puss",
-                "pus"
+                null
             ]
         },
         "baz": "bazz"

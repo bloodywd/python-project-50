@@ -2,5 +2,5 @@
 group1:
   baz: bazz
   zip:
-    sup: pus
+    sup: null
 bbc: 123

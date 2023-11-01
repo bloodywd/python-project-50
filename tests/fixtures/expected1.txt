@@ -6,7 +6,7 @@
       - subgropu1: bas
         zip: {
           - sup: puss
-          + sup: pus
+          + sup: null
         }
     }
 }
