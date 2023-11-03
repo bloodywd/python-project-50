@@ -7,55 +7,74 @@ def check_type(value):
         return value
 
 
-def check_nested(key, value, depth):
-    answer = ''
-    if isinstance(value, dict):
-        answer += f'{key}: {{\n'
-        for k, val in value.items():
-            answer += f'{" " * (depth + 4)}{check_nested(k, val, depth + 4)}'
-        answer += f'{" " * (depth)}}}\n'
-        return answer
+def print_nested(level, depth):
+    temp = []
+    for key in level.keys():
+        value = level[key]['value']
+        is_nested = level[key]['is_nested']
+        if is_nested:
+            temp.extend([
+                f'{" " * (depth)}{key}: {{',
+                print_nested(value, depth),
+                f'{" " * (depth)}}}'
+            ])
+        else:
+            temp.append(f'{" " * (depth)}{key}: {check_type(value)}')
+    return temp
+
+
+def add_similar(key, value, is_nested, depth):
+    if is_nested:
+        return print_nested(key, value, depth)
     else:
-        return f'{key}: {check_type(value)}\n'
+        return [
+            f'{" " * depth}{key}: {check_type(value)}'
+        ]
 
 
-def add_similar(key, value, _, depth):
-    answer = ''
-    key_to_string = check_nested(key, value, depth)
-    answer += f'{" " * depth}{key_to_string}'
-    return answer
+def add_first_only(key, value, is_nested, depth):
+    if is_nested:
+        return print_nested(key, value, depth)
+    else:
+        return [
+            f'{" " * (depth - 2)}- {key}: {check_type(value)}'
+        ]
 
 
-def add_first_only(key, value, _, depth):
-    answer = ''
-    key_to_string = check_nested(key, value, depth)
-    answer += f'{" " * (depth - 2)}- {key_to_string}'
-    return answer
+def add_second_only(key, value, is_nested, depth):
+    if is_nested:
+        return [
+            f'{" " * (depth - 2)}+ {key}: {{',
+            print_nested(value, depth),
+            f'{" " * (depth)}}}'
+        ]
+    else:
+        return [
+            f'{" " * (depth - 2)}+ {key}: {check_type(value)}'
+        ]
 
 
-def add_second_only(key, value, _, depth):
-    answer = ''
-    key_to_string = check_nested(key, value, depth)
-    answer += f'{" " * (depth - 2)}+ {key_to_string}'
-    return answer
-
-
-def add_diff_values(key, value, _, depth):
-    answer = ''
+def add_diff_values(key, value, is_nested, depth):
+    temp = []
     value1, value2 = value
-    key_to_string1 = check_nested(key, value1, depth)
-    key_to_string2 = check_nested(key, value2, depth)
-    answer += f'{" " * (depth - 2)}- {key_to_string1}'
-    answer += f'{" " * (depth - 2)}+ {key_to_string2}'
-    return answer
+    is_nested1, is_nested2 = is_nested
+    if is_nested1:
+        temp.extend(print_nested(key, value1, depth))
+    else:
+        temp.append(f'{" " * (depth - 2)}- {key}: {check_type(value1)}')
+    if is_nested2:
+        temp.extend(print_nested(key, value2, depth))
+    else:
+        temp.append(f'{" " * (depth - 2)}+ {key}: {check_type(value2)}')
+    return temp
 
 
 def add_children(key, value, _, depth):
-    answer = ''
-    answer += f'{" " * (depth)}{key}: {{\n'
-    answer += stylish_level(value, depth + 4)
-    answer += f'{" " * (depth)}}}\n'
-    return answer
+    temp = []
+    temp.append(f'{" " * (depth)}{key}: {{')
+    temp.extend(stylish_level(value, depth + 4))
+    temp.append(f'{" " * (depth)}}}')
+    return temp
 
 
 FUNCS = {
@@ -68,18 +87,17 @@ FUNCS = {
 
 
 def stylish_level(level, depth):
-    level_answer = ''
+    temp = []
     for key in sorted(level.keys()):
         value = level[key]['value']
         type = level[key]['type']
         is_nested = level[key]['is_nested']
-        level_answer += FUNCS[type](key, value, is_nested, depth)
-    return level_answer
+        temp.extend(FUNCS[type](key, value, is_nested, depth))
+    return temp
 
 
 def stylish(difference):
-    answer = '{\n'
-    depth = 0
-    answer += stylish_level(difference, depth + 4)
-    answer += '}'
-    return answer
+    answer = ['{']
+    answer.extend(stylish_level(difference, 4))
+    answer.append('}')
+    return '\n'.join(answer)

@@ -47,14 +47,16 @@ FUNCS = {
 
 
 def lower_level(level, path):
-    level_answer = []
+    temp = []
     for key in sorted(level.keys()):
         value = level[key]['value']
         type = level[key]['type']
         if type == 'similar':
             continue
-        level_answer.extend(FUNCS[type](key, value, path))
-    return level_answer
+        temp.extend(
+            FUNCS[type](key, value, path)
+        )
+    return temp
 
 
 def plain(difference):
