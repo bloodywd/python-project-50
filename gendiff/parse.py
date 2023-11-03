@@ -38,6 +38,10 @@ def check_values(file1, file2, key):
     #      второй элемент - тип значения
 
 
+def set_value(difference, key, value, type):
+    difference[key] = {'value': value, 'type': type}
+
+
 def parse(file1, file2):
     difference = {}
     keys1 = list(file1.keys())
@@ -45,5 +49,5 @@ def parse(file1, file2):
     difference_keys = list(set(keys1 + keys2))
     for key in difference_keys:
         value, type = check_values(file1, file2, key)
-        difference[key] = {'value': value, 'type': type}
+        set_value(difference, key, value, type)
     return difference

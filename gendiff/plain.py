@@ -38,27 +38,31 @@ def add_children(key, value, path):
     return lower_level(value, new_path)
 
 
-FUNCS = {
-    'children': add_children,
-    'two_values': add_diff_values,
-    'second_only': add_second_only,
-    'first_only': add_first_only,
-}
+def get_value(level, key):
+    return level[key]['value'], level[key]['type']
+
+
+def print_level(key, value, path, type):
+    funcs = {
+        'children': add_children,
+        'two_values': add_diff_values,
+        'second_only': add_second_only,
+        'first_only': add_first_only,
+    }
+    if type == 'similar':
+        return []
+    return funcs[type](key, value, path)
 
 
 def lower_level(level, path):
     temp = []
     for key in sorted(level.keys()):
-        value = level[key]['value']
-        type = level[key]['type']
-        if type == 'similar':
-            continue
+        value, type = get_value(level, key)
         temp.extend(
-            FUNCS[type](key, value, path)
+            print_level(key, value, path, type)
         )
     return temp
 
 
 def plain(difference):
-    path = ''
-    return "\n".join(lower_level(difference, path))
+    return "\n".join(lower_level(difference, ''))

@@ -54,26 +54,28 @@ def add_children(key, value, depth, _):
     return temp
 
 
-FUNCS = {
-    'children': add_children,
-    'two_values': add_diff_values,
-    'second_only': add_value,
-    'first_only': add_value,
-    'similar': add_value,
-}
+def get_value(level, key):
+    return level[key]['value'], level[key]['type']
+
+
+def print_level(key, value, depth, type):
+    funcs = {
+        'children': add_children,
+        'two_values': add_diff_values,
+        'second_only': add_value,
+        'first_only': add_value,
+        'similar': add_value,
+    }
+    return funcs[type](key, value, depth, type)
 
 
 def stylish_level(level, depth):
     temp = []
     for key in sorted(level.keys()):
-        value = level[key]['value']
-        type = level[key]['type']
-        temp.extend(FUNCS[type](
-            key,
-            value,
-            depth,
-            type
-        ))
+        value, type = get_value(level, key)
+        temp.extend(
+            print_level(key, value, depth, type)
+        )
     return temp
 
 
