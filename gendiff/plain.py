@@ -12,25 +12,26 @@ def complex_or_not(value):
         return f"{value}"
 
 
-def add_first_only(key, _, path):
+def add_first_only(key, _, __, path):
     return f'Property \'{path}{key}\' was removed\n'
 
 
-def add_second_only(key, level, path):
-    value = complex_or_not(level[key])
+def add_second_only(key, value, _, path):
+    value = complex_or_not(value)
     return f'Property \'{path}{key}\' was added with value: {value}\n'
 
 
-def add_diff_values(key, level, path):
-    value1 = complex_or_not(level[key][0])
-    value2 = complex_or_not(level[key][1])
+def add_diff_values(key, value, _, path):
+    value1, value2 = value
+    value1 = complex_or_not(value1)
+    value2 = complex_or_not(value2)
     return f'Property \'{path}{key}\' was updated. From {value1} to {value2}\n'
 
 
-def add_children(key, level, path):
+def add_children(key, value, _, path):
     answer = ''
     new_path = f'{path}{key}.'
-    answer += lower_level(level[key], new_path)
+    answer += lower_level(value, new_path)
     return answer
 
 
@@ -45,13 +46,12 @@ FUNCS = {
 def lower_level(level, path):
     level_answer = ''
     for key in sorted(level.keys()):
-        if key == 'props':
+        value = level[key]['value']
+        type = level[key]['type']
+        is_nested = level[key]['is_nested']
+        if type == 'similar':
             continue
-        props = level['props']
-        if props[key] == 'similar':
-            continue
-        key_func_name = props[key]
-        level_answer += FUNCS[key_func_name](key, level, path)
+        level_answer += FUNCS[type](key, value, is_nested, path)
     return level_answer
 
 

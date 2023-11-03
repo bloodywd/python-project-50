@@ -1,27 +1,45 @@
 {
-    "props": {
-        "group1": "children",
-        "bbc": "similar",
-        "abc": "first_only"
-    },
     "group1": {
-        "props": {
-            "subgropu1": "first_only",
-            "zip": "children",
-            "baz": "second_only"
-        },
-        "subgropu1": "bas",
-        "zip": {
-            "props": {
-                "sup": "two_values"
+        "value": {
+            "subgropu1": {
+                "value": "bas",
+                "type": "first_only",
+                "is_nested": false
             },
-            "sup": [
-                "puss",
-                null
-            ]
+            "baz": {
+                "value": "bazz",
+                "type": "second_only",
+                "is_nested": false
+            },
+            "zip": {
+                "value": {
+                    "sup": {
+                        "value": [
+                            "puss",
+                            null
+                        ],
+                        "type": "two_values",
+                        "is_nested": [
+                            false,
+                            false
+                        ]
+                    }
+                },
+                "type": "children",
+                "is_nested": true
+            }
         },
-        "baz": "bazz"
+        "type": "children",
+        "is_nested": true
     },
-    "bbc": 123,
-    "abc": true
+    "bbc": {
+        "value": 123,
+        "type": "similar",
+        "is_nested": false
+    },
+    "abc": {
+        "value": true,
+        "type": "first_only",
+        "is_nested": false
+    }
 }

@@ -19,40 +19,41 @@ def check_nested(key, value, depth):
         return f'{key}: {check_type(value)}\n'
 
 
-def add_similar(key, level, depth):
+def add_similar(key, value, _, depth):
     answer = ''
-    key_to_string = check_nested(key, level[key], depth)
+    key_to_string = check_nested(key, value, depth)
     answer += f'{" " * depth}{key_to_string}'
     return answer
 
 
-def add_first_only(key, level, depth):
+def add_first_only(key, value, _, depth):
     answer = ''
-    key_to_string = check_nested(key, level[key], depth)
+    key_to_string = check_nested(key, value, depth)
     answer += f'{" " * (depth - 2)}- {key_to_string}'
     return answer
 
 
-def add_second_only(key, level, depth):
+def add_second_only(key, value, _, depth):
     answer = ''
-    key_to_string = check_nested(key, level[key], depth)
+    key_to_string = check_nested(key, value, depth)
     answer += f'{" " * (depth - 2)}+ {key_to_string}'
     return answer
 
 
-def add_diff_values(key, level, depth):
+def add_diff_values(key, value, _, depth):
     answer = ''
-    key_to_string1 = check_nested(key, level[key][0], depth)
-    key_to_string2 = check_nested(key, level[key][1], depth)
+    value1, value2 = value
+    key_to_string1 = check_nested(key, value1, depth)
+    key_to_string2 = check_nested(key, value2, depth)
     answer += f'{" " * (depth - 2)}- {key_to_string1}'
     answer += f'{" " * (depth - 2)}+ {key_to_string2}'
     return answer
 
 
-def add_children(key, level, depth):
+def add_children(key, value, _, depth):
     answer = ''
     answer += f'{" " * (depth)}{key}: {{\n'
-    answer += stylish_level(level[key], depth + 4)
+    answer += stylish_level(value, depth + 4)
     answer += f'{" " * (depth)}}}\n'
     return answer
 
@@ -69,11 +70,10 @@ FUNCS = {
 def stylish_level(level, depth):
     level_answer = ''
     for key in sorted(level.keys()):
-        if key == 'props':
-            continue
-        props = level['props']
-        key_func_name = props[key]
-        level_answer += FUNCS[key_func_name](key, level, depth)
+        value = level[key]['value']
+        type = level[key]['type']
+        is_nested = level[key]['is_nested']
+        level_answer += FUNCS[type](key, value, is_nested, depth)
     return level_answer
 
 
