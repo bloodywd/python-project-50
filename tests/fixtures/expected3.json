@@ -1,30 +1,10 @@
 {
     "bbc": {
         "value": 123,
-        "type": "similar",
-        "is_nested": false
-    },
-    "abc": {
-        "value": {
-            "zzz": {
-                "subgroup": "value"
-            }
-        },
-        "type": "first_only",
-        "is_nested": true
+        "type": "similar"
     },
     "group1": {
         "value": {
-            "baz": {
-                "value": "bazz",
-                "type": "second_only",
-                "is_nested": false
-            },
-            "subgropu1": {
-                "value": "bas",
-                "type": "first_only",
-                "is_nested": false
-            },
             "zip": {
                 "value": {
                     "sup": {
@@ -32,18 +12,28 @@
                             "puss",
                             null
                         ],
-                        "type": "two_values",
-                        "is_nested": [
-                            false,
-                            false
-                        ]
+                        "type": "two_values"
                     }
                 },
-                "type": "children",
-                "is_nested": true
+                "type": "children"
+            },
+            "subgropu1": {
+                "value": "bas",
+                "type": "first_only"
+            },
+            "baz": {
+                "value": "bazz",
+                "type": "second_only"
             }
         },
-        "type": "children",
-        "is_nested": true
+        "type": "children"
+    },
+    "abc": {
+        "value": {
+            "zzz": {
+                "subgroup": "value"
+            }
+        },
+        "type": "first_only"
     }
 }

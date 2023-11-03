@@ -7,23 +7,29 @@ def check_type(value):
         return value
 
 
+def is_nested(value):
+    return type(value) is dict
+
+
 def print_nested(level, depth):
     temp = []
     for key, value in level.items():
-        is_nested = type(value) is dict
-        temp.extend(add_value(key, value, depth + 4, is_nested, type='similar'))
+        temp.extend(
+            add_value(key, value, depth + 4, type='similar')
+        )
     return temp
 
 
-def add_value(key, value, depth, is_nested, type):
+def add_value(key, value, depth, type):
     temp = []
+    nested = is_nested(value)
     if type == 'similar':
         diff = " " * (depth)
     elif type == 'first_only':
         diff = f'{" " * (depth - 2)}- '
     elif type == 'second_only':
         diff = f'{" " * (depth - 2)}+ '
-    if is_nested:
+    if nested:
         temp.append(f'{diff}{key}: {{')
         temp.extend(print_nested(value, depth))
         temp.append(f'{" " * (depth)}}}')
@@ -32,16 +38,15 @@ def add_value(key, value, depth, is_nested, type):
     return temp
 
 
-def add_diff_values(key, value, depth, is_nested, _):
+def add_diff_values(key, value, depth, _):
     temp = []
     value1, value2 = value
-    is_nested1, is_nested2 = is_nested
-    temp.extend(add_value(key, value1, depth, is_nested1, type='first_only'))
-    temp.extend(add_value(key, value2, depth, is_nested2, type='second_only'))
+    temp.extend(add_value(key, value1, depth, type='first_only'))
+    temp.extend(add_value(key, value2, depth, type='second_only'))
     return temp
 
 
-def add_children(key, value, depth, *_):
+def add_children(key, value, depth, _):
     temp = []
     temp.append(f'{" " * (depth)}{key}: {{')
     temp.extend(stylish_level(value, depth + 4))
@@ -63,12 +68,10 @@ def stylish_level(level, depth):
     for key in sorted(level.keys()):
         value = level[key]['value']
         type = level[key]['type']
-        is_nested = level[key]['is_nested']
         temp.extend(FUNCS[type](
             key,
             value,
             depth,
-            is_nested,
             type
         ))
     return temp
