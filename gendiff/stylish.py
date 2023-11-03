@@ -25,7 +25,7 @@ def print_nested(level, depth):
 
 def add_similar(key, value, is_nested, depth):
     if is_nested:
-        return print_nested(key, value, depth)
+        return print_nested(value, depth)
     else:
         return [
             f'{" " * depth}{key}: {check_type(value)}'
@@ -34,7 +34,7 @@ def add_similar(key, value, is_nested, depth):
 
 def add_first_only(key, value, is_nested, depth):
     if is_nested:
-        return print_nested(key, value, depth)
+        return print_nested(value, depth)
     else:
         return [
             f'{" " * (depth - 2)}- {key}: {check_type(value)}'
@@ -59,11 +59,11 @@ def add_diff_values(key, value, is_nested, depth):
     value1, value2 = value
     is_nested1, is_nested2 = is_nested
     if is_nested1:
-        temp.extend(print_nested(key, value1, depth))
+        temp.extend(print_nested(value1, depth))
     else:
         temp.append(f'{" " * (depth - 2)}- {key}: {check_type(value1)}')
     if is_nested2:
-        temp.extend(print_nested(key, value2, depth))
+        temp.extend(print_nested(value2, depth))
     else:
         temp.append(f'{" " * (depth - 2)}+ {key}: {check_type(value2)}')
     return temp
