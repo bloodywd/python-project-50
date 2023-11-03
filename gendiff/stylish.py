@@ -11,53 +11,37 @@ def print_nested(level, depth):
     temp = []
     for key, value in level.items():
         is_nested = type(value) is dict
-        temp.extend(add_similar(key, value, is_nested, depth + 4))
+        temp.extend(add_value(key, value, depth + 4, is_nested, type='similar'))
     return temp
 
 
-def add_similar(key, value, is_nested, depth):
+def add_value(key, value, depth, is_nested, type):
     temp = []
+    if type == 'similar':
+        diff = " " * (depth)
+    elif type == 'first_only':
+        diff = f'{" " * (depth - 2)}- '
+    elif type == 'second_only':
+        diff = f'{" " * (depth - 2)}+ '
     if is_nested:
-        temp.append(f'{" " * (depth)}{key}: {{')
+        temp.append(f'{diff}{key}: {{')
         temp.extend(print_nested(value, depth))
         temp.append(f'{" " * (depth)}}}')
     else:
-        temp.append(f'{" " * depth}{key}: {check_type(value)}')
+        temp.append(f'{diff}{key}: {check_type(value)}')
     return temp
 
 
-def add_first_only(key, value, is_nested, depth):
-    temp = []
-    if is_nested:
-        temp.append(f'{" " * (depth - 2)}- {key}: {{')
-        temp.extend(print_nested(value, depth))
-        temp.append(f'{" " * (depth)}}}')
-    else:
-        temp.append(f'{" " * (depth - 2)}- {key}: {check_type(value)}')
-    return temp
-
-
-def add_second_only(key, value, is_nested, depth):
-    temp = []
-    if is_nested:
-        temp.append(f'{" " * (depth - 2)}+ {key}: {{')
-        temp.extend(print_nested(value, depth))
-        temp.append(f'{" " * (depth)}}}')
-    else:
-        temp.append(f'{" " * (depth - 2)}+ {key}: {check_type(value)}')
-    return temp
-
-
-def add_diff_values(key, value, is_nested, depth):
+def add_diff_values(key, value, depth, is_nested, _):
     temp = []
     value1, value2 = value
     is_nested1, is_nested2 = is_nested
-    temp.extend(add_first_only(key, value1, is_nested1, depth))
-    temp.extend(add_second_only(key, value2, is_nested2, depth))
+    temp.extend(add_value(key, value1, depth, is_nested1, type='first_only'))
+    temp.extend(add_value(key, value2, depth, is_nested2, type='second_only'))
     return temp
 
 
-def add_children(key, value, _, depth):
+def add_children(key, value, depth, *_):
     temp = []
     temp.append(f'{" " * (depth)}{key}: {{')
     temp.extend(stylish_level(value, depth + 4))
@@ -68,9 +52,9 @@ def add_children(key, value, _, depth):
 FUNCS = {
     'children': add_children,
     'two_values': add_diff_values,
-    'second_only': add_second_only,
-    'first_only': add_first_only,
-    'similar': add_similar,
+    'second_only': add_value,
+    'first_only': add_value,
+    'similar': add_value,
 }
 
 
@@ -80,7 +64,13 @@ def stylish_level(level, depth):
         value = level[key]['value']
         type = level[key]['type']
         is_nested = level[key]['is_nested']
-        temp.extend(FUNCS[type](key, value, is_nested, depth))
+        temp.extend(FUNCS[type](
+            key,
+            value,
+            depth,
+            is_nested,
+            type
+        ))
     return temp
 
 
