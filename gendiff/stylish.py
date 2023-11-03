@@ -11,14 +11,7 @@ def print_nested(level, depth):
     temp = []
     for key, value in level.items():
         is_nested = type(value) is dict
-        if is_nested:
-            temp.extend([
-                f'{" " * (depth)}{key}: {{',
-                print_nested(value, depth),
-                f'{" " * (depth)}}}'
-            ])
-        else:
-            temp.append(f'{" " * (depth)}{key}: {check_type(value)}')
+        temp.extend(add_similar(key, value, is_nested, depth))
     return temp
 
 
