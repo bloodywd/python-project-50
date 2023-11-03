@@ -12,27 +12,30 @@ def complex_or_not(value):
         return f"{value}"
 
 
-def add_first_only(key, _, __, path):
-    return f'Property \'{path}{key}\' was removed\n'
+def add_first_only(key, _, path):
+    return [
+        f'Property \'{path}{key}\' was removed',
+    ]
 
 
-def add_second_only(key, value, _, path):
-    value = complex_or_not(value)
-    return f'Property \'{path}{key}\' was added with value: {value}\n'
+def add_second_only(key, value, path):
+    return [
+        f'Property \'{path}{key}\' was added '
+        f'with value: {complex_or_not(value)}',
+    ]
 
 
-def add_diff_values(key, value, _, path):
+def add_diff_values(key, value, path):
     value1, value2 = value
-    value1 = complex_or_not(value1)
-    value2 = complex_or_not(value2)
-    return f'Property \'{path}{key}\' was updated. From {value1} to {value2}\n'
+    return [
+        f'Property \'{path}{key}\' was updated. '
+        f'From {complex_or_not(value1)} to {complex_or_not(value2)}'
+    ]
 
 
-def add_children(key, value, _, path):
-    answer = ''
+def add_children(key, value, path):
     new_path = f'{path}{key}.'
-    answer += lower_level(value, new_path)
-    return answer
+    return lower_level(value, new_path)
 
 
 FUNCS = {
@@ -44,19 +47,16 @@ FUNCS = {
 
 
 def lower_level(level, path):
-    level_answer = ''
+    level_answer = []
     for key in sorted(level.keys()):
         value = level[key]['value']
         type = level[key]['type']
-        is_nested = level[key]['is_nested']
         if type == 'similar':
             continue
-        level_answer += FUNCS[type](key, value, is_nested, path)
+        level_answer.extend(FUNCS[type](key, value, path))
     return level_answer
 
 
 def plain(difference):
-    answer = ''
     path = ''
-    answer += lower_level(difference, path)
-    return answer[:-1]
+    return "\n".join(lower_level(difference, path))
