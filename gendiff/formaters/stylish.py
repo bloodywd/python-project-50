@@ -81,6 +81,6 @@ def stylish_level(level, depth):
 
 def stylish(difference):
     answer = ['{']
-    answer.extend(stylish_level(difference, 4))
+    answer.extend(stylish_level(difference, depth=4))
     answer.append('}')
     return '\n'.join(answer)

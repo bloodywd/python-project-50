@@ -65,4 +65,4 @@ def lower_level(level, path):
 
 
 def plain(difference):
-    return "\n".join(lower_level(difference, ''))
+    return "\n".join(lower_level(difference, path=''))

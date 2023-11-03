@@ -4,10 +4,9 @@ import yaml
 
 def file_to_string(file_path):
     if ('.yml' in file_path) or ('.yaml' in file_path):
-        file = yaml.safe_load(open(file_path))
-    elif ('.json' in file_path):
-        file = json.load(open(file_path))
-    return file
+        return yaml.safe_load(open(file_path))
+    elif '.json' in file_path:
+        return json.load(open(file_path))
 
 
 def check_values(file1, file2, key):
