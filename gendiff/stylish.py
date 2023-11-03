@@ -11,16 +11,16 @@ def print_nested(level, depth):
     temp = []
     for key, value in level.items():
         is_nested = type(value) is dict
-        temp.extend(add_similar(key, value, is_nested, depth))
+        temp.extend(add_similar(key, value, is_nested, depth + 4))
     return temp
 
 
 def add_similar(key, value, is_nested, depth):
     temp = []
     if is_nested:
-        temp.extend(f'{" " * (depth)}{key}: {{')
-        temp.append(print_nested(value, depth))
-        temp.extend(f'{" " * (depth)}}}')
+        temp.append(f'{" " * (depth)}{key}: {{')
+        temp.extend(print_nested(value, depth))
+        temp.append(f'{" " * (depth)}}}')
     else:
         temp.append(f'{" " * depth}{key}: {check_type(value)}')
     return temp
@@ -29,9 +29,9 @@ def add_similar(key, value, is_nested, depth):
 def add_first_only(key, value, is_nested, depth):
     temp = []
     if is_nested:
-        temp.extend(f'{" " * (depth - 2)}- {key}: {{')
-        temp.append(print_nested(value, depth))
-        temp.extend(f'{" " * (depth)}}}')
+        temp.append(f'{" " * (depth - 2)}- {key}: {{')
+        temp.extend(print_nested(value, depth))
+        temp.append(f'{" " * (depth)}}}')
     else:
         temp.append(f'{" " * (depth - 2)}- {key}: {check_type(value)}')
     return temp

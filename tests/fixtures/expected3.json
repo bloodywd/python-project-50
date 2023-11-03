@@ -1,14 +1,28 @@
 {
+    "bbc": {
+        "value": 123,
+        "type": "similar",
+        "is_nested": false
+    },
+    "abc": {
+        "value": {
+            "zzz": {
+                "subgroup": "value"
+            }
+        },
+        "type": "first_only",
+        "is_nested": true
+    },
     "group1": {
         "value": {
-            "subgropu1": {
-                "value": "bas",
-                "type": "first_only",
-                "is_nested": false
-            },
             "baz": {
                 "value": "bazz",
                 "type": "second_only",
+                "is_nested": false
+            },
+            "subgropu1": {
+                "value": "bas",
+                "type": "first_only",
                 "is_nested": false
             },
             "zip": {
@@ -31,15 +45,5 @@
         },
         "type": "children",
         "is_nested": true
-    },
-    "bbc": {
-        "value": 123,
-        "type": "similar",
-        "is_nested": false
-    },
-    "abc": {
-        "value": true,
-        "type": "first_only",
-        "is_nested": false
     }
 }

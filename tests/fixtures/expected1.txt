@@ -1,5 +1,9 @@
 {
-  - abc: true
+  - abc: {
+        zzz: {
+            subgroup: value
+        }
+    }
     bbc: 123
     group1: {
       + baz: bazz

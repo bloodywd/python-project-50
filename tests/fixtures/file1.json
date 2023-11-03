@@ -5,6 +5,10 @@
       "sup": "puss"
     }
   },
-  "abc": true,
+  "abc": {
+    "zzz": {
+      "subgroup": "value"
+    }
+  },
   "bbc": 123
 }
