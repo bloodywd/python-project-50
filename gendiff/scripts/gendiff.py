@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 import argparse
 from gendiff.parse import parse, file_to_string
-from gendiff.stylish import stylish
-from gendiff.plain import plain
-from gendiff.format_to_json import format_to_json
+from gendiff.formats.stylish import stylish
+from gendiff.formats.plain import plain
+from gendiff.formats.format_to_json import format_to_json
 
 
 FUNCS = {
