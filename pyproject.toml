@@ -1,12 +1,22 @@
 [tool.poetry]
 name = "hexlet-code"
 version = "0.1.0"
-description = ""
-authors = ["bloodywd <bloodyforreal@gmail.com>"]
+description = "A difference generator is a program that determines the difference between two data structures."
+authors = ["Evgeny Stepukov <bloodyforreal@gmail.com>"]
+repository = "https://github.com/bloodywd/python-project-50"
 readme = "README.md"
 packages = [
   { include = "gendiff" },
 ]
+classifiers = [
+  "Environment :: Console",
+  "Natural Language :: English",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Topic :: File Formats",
+  "Topic :: Utilities",
+]
+
 
 [tool.poetry.dependencies]
 python = "^3.10"
