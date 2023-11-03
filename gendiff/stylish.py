@@ -24,7 +24,7 @@ def add_value(key, value, depth, type):
     temp = []
     nested = is_nested(value)
     if type == 'similar':
-        diff = " " * (depth)
+        diff = " " * depth
     elif type == 'first_only':
         diff = f'{" " * (depth - 2)}- '
     elif type == 'second_only':
