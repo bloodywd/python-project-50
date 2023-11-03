@@ -40,9 +40,9 @@ def add_first_only(key, value, is_nested, depth):
 def add_second_only(key, value, is_nested, depth):
     temp = []
     if is_nested:
-        temp.extend(f'{" " * (depth - 2)}+ {key}: {{')
-        temp.append(print_nested(value, depth))
-        temp.extend(f'{" " * (depth)}}}')
+        temp.append(f'{" " * (depth - 2)}+ {key}: {{')
+        temp.extend(print_nested(value, depth))
+        temp.append(f'{" " * (depth)}}}')
     else:
         temp.append(f'{" " * (depth - 2)}+ {key}: {check_type(value)}')
     return temp
