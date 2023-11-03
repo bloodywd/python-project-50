@@ -22,7 +22,9 @@ gendiff -h # See help page for usage
 ## About the project.
 
 A difference generator is a program that determines the difference between two data structures.  
-Utility features:  
+
+# Utility features.
+  
 Supports different input formats: yaml, json  
 Generating a report in the form of plain text, stylish and json  
 
