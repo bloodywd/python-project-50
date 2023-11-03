@@ -9,9 +9,8 @@ def check_type(value):
 
 def print_nested(level, depth):
     temp = []
-    for key in level.keys():
-        value = level[key]['value']
-        is_nested = level[key]['is_nested']
+    for key, value in level.items():
+        is_nested = type(value) is dict
         if is_nested:
             temp.extend([
                 f'{" " * (depth)}{key}: {{',
