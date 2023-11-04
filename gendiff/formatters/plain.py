@@ -1,4 +1,4 @@
-def complex_or_not(value):
+def check_type(value):
     value_type = type(value)
     if value_type in (list, tuple, range, dict, set, frozenset):
         return '[complex value]'
@@ -24,14 +24,14 @@ def plain_node(node, path):
             result.extend(plain_node(value, path + key + '.'))
         elif description == 'added':
             result.append(f'Property \'{path}{key}\' was added '
-                          f'with value: {complex_or_not(value)}')
+                          f'with value: {check_type(value)}')
         elif description == 'deleted':
             result.append(f'Property \'{path}{key}\' was removed')
         elif description == 'changed':
             value1, value2 = value
             result.append(f'Property \'{path}{key}\' was updated. From '
-                          f'{complex_or_not(value1)} to '
-                          f'{complex_or_not(value2)}')
+                          f'{check_type(value1)} to '
+                          f'{check_type(value2)}')
     return result
 
 

@@ -11,7 +11,7 @@ def is_nested(value):
     return type(value) is dict
 
 
-def count_indent(description, indent_count):
+def get_indent(description, indent_count):
     indent = ''
     if description == 'unchanged':
         indent += ' ' * indent_count
@@ -25,7 +25,7 @@ def count_indent(description, indent_count):
 def stylish_single_value(key, value, indent_count, description):
     result = []
     nested = is_nested(value)
-    indent = count_indent(description, indent_count)
+    indent = get_indent(description, indent_count)
     if nested:
         result.append(f'{indent}{key}: {{')
         for k, val in value.items():
