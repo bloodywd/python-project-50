@@ -17,13 +17,6 @@ def parse_arguments():
     return parser.parse_args()
 
 
-FUNCS = {
-    'stylish': stylish,
-    'plain': plain,
-    'json': json_formatter,
-}
-
-
 def run_differ():
     args = parse_arguments()
     first_file = args.first_file
@@ -36,4 +29,9 @@ def generate_diff(file_path1, file_path2, formatter='stylish'):
     file1 = open_file(file_path1)
     file2 = open_file(file_path2)
     diff = parse(file1, file2)
-    return FUNCS[formatter](diff)
+    if formatter == 'stylish':
+        return stylish(diff)
+    if formatter == 'plain':
+        return plain(diff)
+    if formatter == 'json':
+        return json_formatter(diff)
