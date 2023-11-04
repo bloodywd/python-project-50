@@ -11,16 +11,21 @@ def is_nested(value):
     return type(value) is dict
 
 
-def stylish_single_value(key, value, indent_count, description):
-    result = []
+def count_indent(description, indent_count):
     indent = ''
-    nested = is_nested(value)
     if description == 'unchanged':
         indent += ' ' * indent_count
     elif description == 'deleted':
         indent += ' ' * (indent_count - 2) + '- '
     elif description == 'added':
         indent += ' ' * (indent_count - 2) + '+ '
+    return indent
+
+
+def stylish_single_value(key, value, indent_count, description):
+    result = []
+    nested = is_nested(value)
+    indent = count_indent(description, indent_count)
     if nested:
         result.append(f'{indent}{key}: {{')
         for k, val in value.items():
@@ -37,26 +42,32 @@ def get_value(node, key):
     return node[key]['value'], node[key]['description']
 
 
+def check_value(key, value, indent_count, description):
+    result = []
+    if description == 'has_children':
+        result.append(' ' * indent_count + key + ': {')
+        result.extend(stylish_node(value, indent_count + 4))
+        result.append(' ' * indent_count + '}')
+    if description in ('added', 'deleted', 'unchanged'):
+        result.extend(
+            stylish_single_value(key, value, indent_count, description)
+        )
+    if description == 'changed':
+        value1, value2 = value
+        result.extend(stylish_single_value(
+            key, value1, indent_count, description='deleted'
+        ))
+        result.extend(stylish_single_value(
+            key, value2, indent_count, description='added'
+        ))
+    return result
+
+
 def stylish_node(node, indent_count):
     result = []
     for key in sorted(node.keys()):
         value, description = get_value(node, key)
-        if description == 'has_children':
-            result.append(' ' * indent_count + key + ': {')
-            result.extend(stylish_node(value, indent_count + 4))
-            result.append(' ' * indent_count + '}')
-        if description in ('added', 'deleted', 'unchanged'):
-            result.extend(
-                stylish_single_value(key, value, indent_count, description)
-            )
-        if description == 'changed':
-            value1, value2 = value
-            result.extend(stylish_single_value(
-                key, value1, indent_count, description='deleted'
-            ))
-            result.extend(stylish_single_value(
-                key, value2, indent_count, description='added'
-            ))
+        result.extend(check_value(key, value, indent_count, description))
     return result
 
 
