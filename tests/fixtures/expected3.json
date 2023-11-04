@@ -1,7 +1,7 @@
 {
     "bbc": {
         "value": 123,
-        "type": "similar"
+        "description": "unchanged"
     },
     "group1": {
         "value": {
@@ -12,21 +12,21 @@
                             "puss",
                             null
                         ],
-                        "type": "two_values"
+                        "description": "changed"
                     }
                 },
-                "type": "children"
+                "description": "has_children"
             },
             "subgropu1": {
                 "value": "bas",
-                "type": "first_only"
+                "description": "deleted"
             },
             "baz": {
                 "value": "bazz",
-                "type": "second_only"
+                "description": "added"
             }
         },
-        "type": "children"
+        "description": "has_children"
     },
     "abc": {
         "value": {
@@ -34,6 +34,6 @@
                 "subgroup": "value"
             }
         },
-        "type": "first_only"
+        "description": "deleted"
     }
 }
