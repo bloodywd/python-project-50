@@ -64,5 +64,4 @@ def stylish(difference):
     answer = ['{']
     answer.extend(stylish_node(difference, indent_count=4))
     answer.append('}')
-    print(answer)
     return '\n'.join(answer)
