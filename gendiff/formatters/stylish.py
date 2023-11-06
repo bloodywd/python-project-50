@@ -65,7 +65,7 @@ def check_value(key, value, indent_count, description):
 
 def stylish_node(node, indent_count):
     result = []
-    for key in sorted(node.keys()):
+    for key in node.keys():
         value, description = get_value(node, key)
         result.extend(check_value(key, value, indent_count, description))
     return result

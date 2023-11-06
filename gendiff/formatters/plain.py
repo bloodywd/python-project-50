@@ -18,7 +18,7 @@ def get_value(node, key):
 
 def plain_node(node, path):
     result = []
-    for key in sorted(node.keys()):
+    for key in node.keys():
         value, description = get_value(node, key)
         if description == 'has_children':
             result.extend(plain_node(value, path + key + '.'))
@@ -36,4 +36,5 @@ def plain_node(node, path):
 
 
 def plain(difference):
+    print(difference)
     return "\n".join(plain_node(difference, path=''))
