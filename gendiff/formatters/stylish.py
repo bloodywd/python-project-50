@@ -8,11 +8,11 @@ def stringify(data, indent_count):
         return 'null'
     if type(data) is not dict:
         return data
-    result = ["{"]
+    lines = []
     for key, value in data.items():
         child = stringify(value, indent_count + 4)
-        result.append(f'{(indent_count + 4) * " "}{key}: {child}')
-    result.append(f'{indent_count * " "}}}')
+        lines.append(f'{(indent_count + 4) * " "}{key}: {child}')
+    result = itertools.chain("{", lines, [indent_count * " " + "}"])
     return '\n'.join(result)
 
 
@@ -51,5 +51,5 @@ def stylish(tree, indent_count=0):
     lines = []
     for child in tree['children']:
         lines.append(check_value(child, indent_count + 4))
-    result = list(itertools.chain("{", lines, [indent_count * " " + "}"]))
+    result = itertools.chain("{", lines, [indent_count * " " + "}"])
     return '\n'.join(result)
