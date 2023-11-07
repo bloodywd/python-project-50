@@ -2,7 +2,6 @@ from gendiff import generate_diff
 import json
 import os
 import pytest
-import itertools
 
 
 PATH = os.path.join(os.path.dirname(__file__), 'fixtures')
