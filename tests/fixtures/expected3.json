@@ -1,39 +1,47 @@
 {
-    "bbc": {
-        "value": 123,
-        "description": "unchanged"
-    },
-    "group1": {
-        "value": {
-            "zip": {
-                "value": {
-                    "sup": {
-                        "value": [
-                            "puss",
-                            null
-                        ],
-                        "description": "changed"
-                    }
+    "type": "root",
+    "children": [
+        {
+            "type": "deleted",
+            "key": "abc",
+            "value": {
+                "zzz": {
+                    "subgroup": "value"
+                }
+            }
+        },
+        {
+            "type": "unchanged",
+            "key": "bbc",
+            "value": 123
+        },
+        {
+            "type": "has_children",
+            "key": "group1",
+            "children": [
+                {
+                    "type": "added",
+                    "key": "baz",
+                    "value": "bazz"
                 },
-                "description": "has_children"
-            },
-            "subgropu1": {
-                "value": "bas",
-                "description": "deleted"
-            },
-            "baz": {
-                "value": "bazz",
-                "description": "added"
-            }
-        },
-        "description": "has_children"
-    },
-    "abc": {
-        "value": {
-            "zzz": {
-                "subgroup": "value"
-            }
-        },
-        "description": "deleted"
-    }
+                {
+                    "type": "deleted",
+                    "key": "subgropu1",
+                    "value": "bas"
+                },
+                {
+                    "type": "has_children",
+                    "key": "zip",
+                    "children": [
+                        {
+                            "type": "changed",
+                            "key": "sup",
+                            "value1": "puss",
+                            "value2": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
 }

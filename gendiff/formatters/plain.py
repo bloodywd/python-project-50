@@ -12,23 +12,22 @@ def check_type(value):
         return f"{value}"
 
 
-def get_value(node, key):
-    return node[key]['value'], node[key]['description']
-
-
 def plain_node(node, path):
     result = []
-    for key in node.keys():
-        value, description = get_value(node, key)
-        if description == 'has_children':
-            result.extend(plain_node(value, path + key + '.'))
-        elif description == 'added':
+    for child in node['children']:
+        value = child.get('value')
+        type = child.get('type')
+        key = child.get('key')
+        if type == 'has_children':
+            result.extend(plain_node(child, path + key + '.'))
+        elif type == 'added':
             result.append(f'Property \'{path}{key}\' was added '
                           f'with value: {check_type(value)}')
-        elif description == 'deleted':
+        elif type == 'deleted':
             result.append(f'Property \'{path}{key}\' was removed')
-        elif description == 'changed':
-            value1, value2 = value
+        elif type == 'changed':
+            value1 = child.get('value1')
+            value2 = child.get('value2')
             result.append(f'Property \'{path}{key}\' was updated. From '
                           f'{check_type(value1)} to '
                           f'{check_type(value2)}')
@@ -36,5 +35,4 @@ def plain_node(node, path):
 
 
 def plain(difference):
-    print(difference)
     return "\n".join(plain_node(difference, path=''))
