@@ -1,3 +1,6 @@
+import itertools
+
+
 def stringify(data, indent_count):
     if type(data) is bool:
         return str(data).lower()
@@ -31,7 +34,7 @@ def check_value(tree, indent_count):
     value = tree.get('value')
     indent = get_indent(type, indent_count)
     if type == 'has_children':
-        result.extend(stylish_children(tree, indent_count))
+        result.append(f'{indent}{key}: {stylish(tree, indent_count)}')
     if type in ('added', 'deleted', 'unchanged'):
         result.append(
             f'{indent}{key}: {stringify(value, indent_count)}'
@@ -41,23 +44,12 @@ def check_value(tree, indent_count):
         value1, value2 = tree.get('value1'), tree.get('value2')
         result.append(f'{indent1}{key}: {stringify(value1, indent_count)}')
         result.append(f'{indent2}{key}: {stringify(value2, indent_count)}')
-    return result
+    return '\n'.join(result)
 
 
-def stylish_children(tree, indent_count=0):
-    result = []
-    if tree['type'] == 'root':
-        result.append("{")
-    else:
-        result.append(f'{indent_count * " "}{tree.get("key")}: {{')
-    # Если рут - ключ перед скобкой не ставим
-    # Если не рут - ставим ключ перед скобкой
+def stylish(tree, indent_count=0):
+    lines = []
     for child in tree['children']:
-        result.extend(check_value(child, indent_count + 4))
-    result.append(f'{indent_count * " "}}}')
-    return result
-
-
-def stylish(difference):
-    result = stylish_children(difference)
+        lines.append(check_value(child, indent_count + 4))
+    result = list(itertools.chain("{", lines, [indent_count * " " + "}"]))
     return '\n'.join(result)
