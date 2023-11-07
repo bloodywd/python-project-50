@@ -19,10 +19,10 @@ def compare_values(dict1, dict2, key):
 
 
 def get_tree(dict1, dict2):
-    result = {}
-    result['type'] = 'root'
-    result['children'] = get_children(dict1, dict2)
-    return result
+    return {
+        'type': 'root',
+        'children': get_children(dict1, dict2)
+    }
 
 
 def get_children(dict1, dict2):
