@@ -38,8 +38,9 @@ def check_value(tree, indent_count):
         )
     if type == 'changed':
         indent1, indent2 = get_indent(type, indent_count)
-        result.append(f'{indent1}{key}: {stringify(tree["value1"], indent_count)}')
-        result.append(f'{indent2}{key}: {stringify(tree["value2"], indent_count)}')
+        value1, value2 = tree.get('value1'), tree.get('value2')
+        result.append(f'{indent1}{key}: {stringify(value1, indent_count)}')
+        result.append(f'{indent2}{key}: {stringify(value2, indent_count)}')
     return result
 
 
@@ -49,6 +50,8 @@ def stylish_children(tree, indent_count=0):
         result.append("{")
     else:
         result.append(f'{indent_count * " "}{tree.get("key")}: {{')
+    # Если рут - ключ перед скобкой не ставим
+    # Если не рут - ставим ключ перед скобкой
     for child in tree['children']:
         result.extend(check_value(child, indent_count + 4))
     result.append(f'{indent_count * " "}}}')

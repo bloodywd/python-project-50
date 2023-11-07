@@ -8,9 +8,14 @@ def compare_values(dict1, dict2, key):
     elif value1 == value2:
         return {"type": "unchanged", "key": key, "value": value1}
     elif isinstance(value1, dict) and isinstance(value2, dict):
-        return {"type": "has_children", "key": key, "children": get_children(value1, value2)}
+        return {
+            "type": "has_children", "key": key,
+            "children": get_children(value1, value2)
+        }
     else:
-        return {"type": "changed", "key": key, "value1": value1, "value2": value2}
+        return {
+            "type": "changed", "key": key, "value1": value1, "value2": value2
+        }
 
 
 def get_tree(dict1, dict2):
