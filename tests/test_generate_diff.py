@@ -27,6 +27,22 @@ def test_generate_diff(file1, file2, expected, formatter):
 def test_generate_diff_json():
     file1, file2 = os.path.join(
         PATH, 'file1.json'), os.path.join(PATH, 'file2.json')
-    result = json.loads((generate_diff(file1, file2, 'json')))
+    result = json.loads((generate_diff(file1, file2, formatter='json')))
     with open(os.path.join(PATH, 'expected3.json'), 'r') as f:
         assert result == json.load(f)
+
+
+def test_file_type_error():
+    file1 = os.path.join(PATH, 'file1.json')
+    file2 = os.path.join(PATH, 'file1.cvs')
+    with pytest.raises(Exception) as e:
+        generate_diff(file1, file2)
+    assert str(e.value) == 'Unknown file type'
+
+
+def test_formatter_error():
+    file1 = os.path.join(PATH, 'file1.json')
+    file2 = os.path.join(PATH, 'file2.json')
+    with pytest.raises(Exception) as e:
+        generate_diff(file1, file2, formatter='stillish')
+    assert str(e.value) == 'Unknown output format'

@@ -7,3 +7,5 @@ def parse(file_path):
         return yaml.safe_load(open(file_path))
     elif '.json' in file_path:
         return json.load(open(file_path))
+    else:
+        raise Exception("Unknown file type")

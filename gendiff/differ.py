@@ -11,7 +11,9 @@ def generate_diff(file_path1, file_path2, formatter='stylish'):
     tree = get_tree(file1, file2)
     if formatter == 'stylish':
         return stylish(tree)
-    if formatter == 'plain':
+    elif formatter == 'plain':
         return plain(tree)
-    if formatter == 'json':
+    elif formatter == 'json':
         return json_formatter(tree)
+    else:
+        raise Exception("Unknown output format")

@@ -18,17 +18,22 @@ def plain(tree, path=''):
         value = child.get('value')
         type = child.get('type')
         key = child.get('key')
-        if type == 'has_children':
-            result.append(plain(child, path + key + '.'))
-        elif type == 'added':
-            result.append(f'Property \'{path}{key}\' was added '
-                          f'with value: {check_type(value)}')
-        elif type == 'deleted':
-            result.append(f'Property \'{path}{key}\' was removed')
-        elif type == 'changed':
-            value1 = child.get('value1')
-            value2 = child.get('value2')
-            result.append(f'Property \'{path}{key}\' was updated. From '
-                          f'{check_type(value1)} to '
-                          f'{check_type(value2)}')
+        match type:
+            case 'unchanged':
+                continue
+            case 'has_children':
+                result.append(plain(child, path + key + '.'))
+            case 'added':
+                result.append(f'Property \'{path}{key}\' was added '
+                              f'with value: {check_type(value)}')
+            case 'deleted':
+                result.append(f'Property \'{path}{key}\' was removed')
+            case 'changed':
+                value1 = child.get('value1')
+                value2 = child.get('value2')
+                result.append(f'Property \'{path}{key}\' was updated. From '
+                              f'{check_type(value1)} to '
+                              f'{check_type(value2)}')
+            case _:
+                raise Exception("Unknown type of node")
     return "\n".join(result)
